@@ -1,0 +1,49 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "apollo/*": [
+        "./src/apollo/*"
+      ],
+      "assets/*": [
+        "./src/assets/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "contexts/*": [
+        "./src/contexts/*"
+      ],
+      "config/*": [
+        "./src/config/*"
+      ],
+      "env/*": [
+        "./src/env/*"
+      ],
+      "helpers/*": [
+        "./src/helpers/*"
+      ],
+      "hooks/*": [
+        "./src/hooks/*"
+      ],
+      "routes/*": [
+        "./src/routes/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
+      ],
+      "services/*": [
+        "./src/services/*"
+      ],
+      "theme/*": [
+        "./src/theme/*"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ]
+    }
+  }
+}
