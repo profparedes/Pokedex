@@ -1,6 +1,12 @@
 import config from 'config/index';
 import { PokemonType, PokemonsQueryResultArrayType } from 'types/pokemon';
 
+export const unslugify = (slug: string): string =>
+  slug
+    .split('-')
+    .map((i) => `${i[0].toLocaleUpperCase()}${i.substring(1)}`)
+    .join(' ');
+
 const calcFemaleGenderRatePercent = (value: number): number => {
   let result = (value / 8) * 100;
   if (result > 100) result = 100;

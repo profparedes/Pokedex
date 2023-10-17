@@ -13,10 +13,9 @@ import {
   useLazyQuery,
   useQuery,
 } from '@apollo/client';
-import { GET_POKEMONS_QUERY, GET_POKEMON_QUERY } from 'Queries';
-
+import { normalizePokemonsQueryResults } from 'helpers/index';
 import { PokemonsQueryResultDataType, PokemonType } from 'types/pokemon';
-import { normalizePokemonsQueryResults } from './helpers';
+import { GET_POKEMONS_QUERY, GET_POKEMON_QUERY } from '../../queries';
 
 interface IContextProps {
   loading: boolean;

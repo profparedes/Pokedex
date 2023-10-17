@@ -9,10 +9,12 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.6",
     "@gluestack-style/react": "^1.0.5",
     "@gluestack-ui/themed": "^1.0.4",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
+    "axios": "^1.5.1",
     "expo": "~49.0.13",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
