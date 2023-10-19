@@ -1,5 +1,5 @@
 import { memo, useCallback } from 'react';
-import { Text, View } from '@gluestack-ui/themed';
+import { Spinner, Text, View } from '@gluestack-ui/themed';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FlatList } from 'react-native';
 import { PokemonCard } from 'components/PokemonCard';
@@ -16,43 +16,40 @@ const PokemonsScreen: React.FC<PokemonsScreenType> = ({ navigation }) => {
 
   const Header = useCallback(
     () => (
-      <View bg="$amber300">
-        <Text>Which Pokémon would you choose?</Text>
+      <View>
+        <Text>FlatList Header</Text>
       </View>
     ),
     [],
   );
 
   const Footer = useCallback(
-    () => (
-      <View>
-        <Text>Footer</Text>
-      </View>
-    ),
-    [],
+    () => <View>{hasMorePages && <Spinner />}</View>,
+    [hasMorePages],
   );
 
   return (
     <>
       <View>{loading && pokemons.length === 0 && <Text>Loading</Text>}</View>
-      <FlatList
-        ListHeaderComponent={Header}
-        numColumns={2}
-        data={pokemons}
-        renderItem={({ item }) => (
-          <PokemonCard
-            pokemon={item}
-            onPress={() =>
-              navigation.navigate('Pokemon', {
-                pokemon: item,
-              })
-            }
-          />
-        )}
-        keyExtractor={(pokemon) => pokemon.id.toString()}
-        onEndReached={!loading && hasMorePages ? fetchNextPage : undefined}
-        ListFooterComponent={Footer}
-      />
+      {!loading && pokemons.length > 0 && (
+        <FlatList
+          ListHeaderComponent={Header}
+          data={pokemons}
+          renderItem={({ item }) => (
+            <PokemonCard
+              pokemon={item}
+              onPress={() =>
+                navigation.navigate('Pokemon', {
+                  pokemon: item,
+                })
+              }
+            />
+          )}
+          keyExtractor={(pokemon) => pokemon.id.toString()}
+          onEndReached={!loading && hasMorePages ? fetchNextPage : undefined}
+          ListFooterComponent={Footer}
+        />
+      )}
     </>
   );
 };
