@@ -39,6 +39,7 @@ export type PokemonType = {
   color: string;
   types: string[];
   image: string | null;
+  pixelImage: string | null;
   gender?: { m: number; f: number };
   description?: string;
   move?: string;

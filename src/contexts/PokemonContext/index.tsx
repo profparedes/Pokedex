@@ -23,6 +23,10 @@ interface IContextProps {
   pokemonLoading: boolean;
   pokemon: PokemonType | null;
   hasMorePages: boolean;
+  // fetchPokemons: LazyQueryExecFunction<
+  //   PokemonsQueryResultDataType,
+  //   OperationVariables
+  // >;
   fetchPokemon: LazyQueryExecFunction<
     PokemonsQueryResultDataType,
     OperationVariables
@@ -55,6 +59,16 @@ export const PokemonProvider: React.FC<IPokemonProviderProps> = ({
     () => setOffset((prev) => prev + RESULT_PER_PAGE),
     [],
   );
+
+  // const [fetchPokemons, { data, loading }] =
+  //   useLazyQuery<PokemonsQueryResultDataType>(GET_POKEMONS_QUERY, {
+  //     variables: { limit: RESULT_PER_PAGE, offset },
+  //   });
+
+  // const fetchNextPage = useCallback(
+  //   () => setOffset((prev) => prev + RESULT_PER_PAGE),
+  //   [],
+  // );
 
   const [fetchPokemon, { data: pokemonData, loading: pokemonLoading }] =
     useLazyQuery<PokemonsQueryResultDataType>(GET_POKEMON_QUERY);
@@ -89,6 +103,7 @@ export const PokemonProvider: React.FC<IPokemonProviderProps> = ({
           pokemons,
           pokemonLoading,
           hasMorePages,
+          // fetchPokemons,
           fetchPokemon,
           fetchNextPage,
         }),
@@ -98,6 +113,7 @@ export const PokemonProvider: React.FC<IPokemonProviderProps> = ({
           pokemons,
           pokemonLoading,
           hasMorePages,
+          // fetchPokemons,
           fetchPokemon,
           fetchNextPage,
         ],

@@ -1,17 +1,25 @@
 /* eslint-disable react/style-prop-object */
-import { config, GluestackUIProvider } from '@gluestack-ui/themed';
+import { ApolloProvider } from '@apollo/client';
+import { config } from '@gluestack-ui/config';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { PokemonProvider } from 'contexts/PokemonContext';
 import MainRoutes from 'routes/index';
+import GraphQLClient from 'services/Apollo';
 
 const App: React.FC = () => {
   return (
-    <GluestackUIProvider config={config}>
-      <NavigationContainer>
-        <MainRoutes />
-        <StatusBar style="auto" />
-      </NavigationContainer>
-    </GluestackUIProvider>
+    <NavigationContainer>
+      <GluestackUIProvider config={config}>
+        <ApolloProvider client={GraphQLClient}>
+          <PokemonProvider>
+            <MainRoutes />
+            <StatusBar style="auto" />
+          </PokemonProvider>
+        </ApolloProvider>
+      </GluestackUIProvider>
+    </NavigationContainer>
   );
 };
 
