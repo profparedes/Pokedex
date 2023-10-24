@@ -39,7 +39,7 @@ const PokemonsScreen: React.FC<PokemonsScreenType> = ({ navigation }) => {
             <PokemonCard
               pokemon={item}
               onPress={() =>
-                navigation.navigate('Pokemon', {
+                navigation.navigate('PokemonViewRouter', {
                   pokemon: item,
                 })
               }

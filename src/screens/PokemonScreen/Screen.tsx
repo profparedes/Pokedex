@@ -4,18 +4,23 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View } from 'react-native';
 import { usePokemon } from 'contexts/PokemonContext';
 import { unslugify } from 'helpers/index';
-import { RootStackParamListType } from 'routes/index';
+import { PokemonStackParamListType } from 'routes/PokemonViewRouter';
+import { PokemonType } from 'types/pokemon';
 
 type PokemonScreenType = NativeStackScreenProps<
-  RootStackParamListType,
+  PokemonStackParamListType,
   'Pokemon'
->;
+> & {
+  pokemon: PokemonType;
+};
 
-const PokemonScreen: React.FC<PokemonScreenType> = ({ route }) => {
+const PokemonScreen: React.FC<PokemonScreenType> = ({
+  pokemon: routePokemon,
+}) => {
   const { pokemonLoading, fetchPokemon, pokemon } = usePokemon();
 
   useEffect(() => {
-    fetchPokemon({ variables: { name: route.params.pokemon.name } });
+    fetchPokemon({ variables: { name: routePokemon.name } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
