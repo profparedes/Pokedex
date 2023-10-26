@@ -27,14 +27,16 @@ const PokemonTCGScreen: React.FC<PokemonTCGScreenType> = () => {
       <FlatList
         data={cards}
         numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-around' }}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleCardClick(String(item.id))}>
-            <View ml={10} mb={10}>
+            <View mb={10}>
               <Image
                 alt={String(item.id)}
                 style={{
                   width: selectedCard === String(item.id) ? 360 : 180,
                   height: selectedCard === String(item.id) ? 520 : 260,
+                  zIndex: selectedCard === String(item.id) ? 1 : 0,
                 }}
                 source={{ uri: item.images.small }}
               />
