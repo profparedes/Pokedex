@@ -5,6 +5,7 @@ import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { PokemonProvider } from 'contexts/PokemonContext';
+import { PokemonTCGProvider } from 'contexts/PokemonTCGContext';
 import MainRoutes from 'routes/index';
 import GraphQLClient from 'services/Apollo';
 
@@ -14,8 +15,10 @@ const App: React.FC = () => {
       <GluestackUIProvider config={config}>
         <ApolloProvider client={GraphQLClient}>
           <PokemonProvider>
-            <MainRoutes />
-            <StatusBar style="auto" />
+            <PokemonTCGProvider>
+              <MainRoutes />
+              <StatusBar style="auto" />
+            </PokemonTCGProvider>
           </PokemonProvider>
         </ApolloProvider>
       </GluestackUIProvider>

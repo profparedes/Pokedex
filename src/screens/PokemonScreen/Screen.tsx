@@ -1,7 +1,7 @@
+/* eslint-disable react/no-array-index-key */
 import { memo, useEffect } from 'react';
 import {
   AntDesign,
-  FontAwesome5,
   Foundation,
   MaterialCommunityIcons,
   MaterialIcons,
@@ -82,7 +82,6 @@ const PokemonScreen: React.FC<PokemonScreenType> = ({
           </View>
           <View flexDirection="row" gap={16} px={20}>
             {pokemon.types.map((type, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <View
                 py={6}
                 px={18}
