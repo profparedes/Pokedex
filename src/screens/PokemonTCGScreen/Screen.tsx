@@ -1,9 +1,10 @@
-import { memo, useState } from 'react';
-import { FlatList, Image, ScrollView, View } from '@gluestack-ui/themed';
+import { memo, useCallback, useState } from 'react';
+import { Image, View } from '@gluestack-ui/themed';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { usePokemonTCG } from 'contexts/PokemonTCGContext';
 import { PokemonStackParamListType } from 'routes/PokemonViewRouter';
+import { PokemonTCGCardType } from 'types/pokemonTCG';
 
 type PokemonTCGScreenType = NativeStackScreenProps<
   PokemonStackParamListType,
@@ -22,30 +23,45 @@ const PokemonTCGScreen: React.FC<PokemonTCGScreenType> = () => {
     }
   };
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: PokemonTCGCardType; index: number }) => (
+      <TouchableOpacity
+        onPress={() => handleCardClick(String(item.id))}
+        style={{
+          zIndex: selectedCard === String(item.id) ? 1 : 0,
+          height: 260,
+          width: 180,
+        }}
+      >
+        <View>
+          <Image
+            alt={String(item.id)}
+            width={selectedCard === String(item.id) ? 360 : 180}
+            height={selectedCard === String(item.id) ? 520 : 260}
+            position="absolute"
+            top={0}
+            {...(index % 2 === 0 ? { left: 0 } : { right: 0 })}
+            source={{ uri: item.images.small }}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedCard],
+  );
+
   return (
-    <ScrollView backgroundColor="#000" py={20}>
-      <FlatList
-        data={cards}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-around' }}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleCardClick(String(item.id))}>
-            <View mb={10}>
-              <Image
-                alt={String(item.id)}
-                style={{
-                  width: selectedCard === String(item.id) ? 360 : 180,
-                  height: selectedCard === String(item.id) ? 520 : 260,
-                  zIndex: selectedCard === String(item.id) ? 1 : 0,
-                }}
-                source={{ uri: item.images.small }}
-              />
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(card) => String(card.id)}
-      />
-    </ScrollView>
+    <FlatList
+      contentContainerStyle={{
+        paddingVertical: 20,
+        backgroundColor: '#000',
+      }}
+      data={cards}
+      numColumns={2}
+      columnWrapperStyle={{ justifyContent: 'space-around', marginBottom: 10 }}
+      renderItem={renderItem}
+      keyExtractor={(card) => String(card.id)}
+    />
   );
 };
 

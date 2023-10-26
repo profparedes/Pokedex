@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { memo, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import {
   AntDesign,
   Foundation,
@@ -14,10 +14,16 @@ import {
   Text,
   View,
 } from '@gluestack-ui/themed';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'components/StatusBar';
 import { usePokemon } from 'contexts/PokemonContext';
-import { pokemonColors, unslugify } from 'helpers/index';
+import {
+  normalizePokemonsQueryResults,
+  pokemonColors,
+  unslugify,
+} from 'helpers/index';
+import { RootStackParamListType } from 'routes/index';
 import { PokemonStackParamListType } from 'routes/PokemonViewRouter';
 import { PokemonType } from 'types/pokemon';
 
@@ -30,16 +36,29 @@ type PokemonScreenType = NativeStackScreenProps<
 
 const PokemonScreen: React.FC<PokemonScreenType> = ({
   pokemon: routePokemon,
-  navigation,
 }) => {
-  const { pokemonLoading, fetchPokemon, pokemon } = usePokemon();
+  const { pokemonLoading, fetchPokemon, pokemon, setPokemon } = usePokemon();
+  const rootNavigation =
+    useNavigation<NavigationProp<RootStackParamListType>>();
 
   const colors =
     pokemonColors?.[pokemon?.color as keyof typeof pokemonColors] ||
     pokemonColors.black;
 
+  const handleFetchPokemon = useCallback(async () => {
+    const { data: pokemonData } = await fetchPokemon({
+      variables: { name: routePokemon.name },
+    });
+
+    if (!!pokemonData && Array.isArray(pokemonData.results)) {
+      setPokemon(
+        normalizePokemonsQueryResults(pokemonData.results)?.[0] ?? null,
+      );
+    }
+  }, [fetchPokemon, routePokemon.name, setPokemon]);
+
   useEffect(() => {
-    fetchPokemon({ variables: { name: routePokemon.name } });
+    handleFetchPokemon();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,7 +78,7 @@ const PokemonScreen: React.FC<PokemonScreenType> = ({
             <Button
               size="md"
               variant="link"
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => rootNavigation.navigate('Home')}
             >
               <ButtonText size="3xl" lineHeight="$3xl" color={colors.name}>
                 <AntDesign name="left" size={24} color={colors.name} />

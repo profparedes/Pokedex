@@ -1,8 +1,5 @@
-import { NavigatorScreenParams, ParamListBase } from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PokemonsScreen } from 'screens/PokemonsScreen';
 import { PokemonType } from 'types/pokemon';
 import PokemonViewRouter, {
@@ -14,7 +11,7 @@ type PokemonRouteType = { pokemon: PokemonType } & Partial<
 >;
 
 export type RootStackParamListType = {
-  Home: NativeStackScreenProps<ParamListBase>;
+  Home: undefined;
   PokemonViewRouter: PokemonRouteType;
 };
 
